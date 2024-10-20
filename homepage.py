@@ -1,7 +1,7 @@
 import streamlit as st
 from datetime import datetime
 
-tab1,tab2,tab3,tab4 = st.tabs(["美丽开封","电脑硬件与网络技术","编程","留言簿"])
+tab1,tab2,tab3 = st.tabs(["美丽开封","电脑硬件与网络技术","编程"])
 
 with tab1:
     st.header("一头连着宋代历史，一头连着人间烟火！这儿就是开封")
@@ -331,6 +331,7 @@ tkinter.messagebox.showwarning("FishC Demo","请注意！")
 参数icon 指定对话框显示的图标
 可以指定的值有: ERROR、INFO、QUESTION或WARNING.
             ''')
+"""
 with tab4:
     with open('./留言簿.txt','r',encoding='utf-8') as f:
         data = f.read()
@@ -343,3 +344,4 @@ with tab4:
                f.write(str(user_message)+"      "+str_time+'\n')
            st.write(user_message)
            st.markdown("<span style='color:green;'>提交成功</span>",unsafe_allow_html=True)
+"""
