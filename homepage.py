@@ -1,6 +1,7 @@
 import streamlit as st
+from datetime import datetime
 
-tab1,tab2,tab3 = st.tabs(["美丽开封","电脑硬件与网络技术","编程"])
+tab1,tab2,tab3,tab4 = st.tabs(["美丽开封","电脑硬件与网络技术","编程","留言簿"])
 
 with tab1:
     st.header("一头连着宋代历史，一头连着人间烟火！这儿就是开封")
@@ -65,25 +66,22 @@ with tab3:
 from tkinter import *
 root=Tk()
 from PIL import ImageTk,Image
-var = StringVar()
-text_label = Label(root,textvariable=var,justify=LEFT)
-im = Image.open(filename).resize((width, height))
+text_label = Label(root,text="文本标签",justify=LEFT)#标签文本左对齐
+text_label.place(x=2, y=2)
+im = Image.open("./1.jpg").resize((200,100))
 im = ImageTk.PhotoImage(im)
-img_label = Label(root, text='欢迎检测', image=im)
-img_label.place(x=2, y=2, width=100, height=40)
+img_label = Label(root,compound=CENTER,text='欢迎我的朋友',image=im)
+img_label.place(x=2, y=60, width=200, height=100)
+root.mainloop()
 
 2.button
 from tkinter import *
 main_win = Tk()
-main_win.geometry(f'{800}x{800}')
+main_win.geometry('800x800')
 png = PhotoImage(file='button.png')
-text = '渔道的按钮'
-fg='blue'
-Button(main_win, compound='bottom', image=png, text=text, fg=fg).pack()
-Button(main_win, compound='top', image=png, text=text, fg=fg).pack()
-Button(main_win, compound='center', image=png, text=text, fg=fg).pack()
-Button(main_win, compound='left', image=png, text=text, fg=fg).pack()
-Button(main_win, compound='right', image=png, text=text, fg=fg).pack()
+Button(main_win,image=png).pack()
+main_win.mainloop()
+
 3.notebook
 from tkinter import *
 from tkinter import ttk
@@ -149,6 +147,8 @@ root.mainloop()
 
 6进度条
 模拟下载
+import tkinter
+import tkinter.ttk
 def show():
     # 设置进度条的目前值
     progressbar['value'] = 0
@@ -195,11 +195,16 @@ from tkinter import *
 root=Tk()
 root.geometry('400x300')
 f=Frame(root)
+f.pack()
 sb=Scrollbar(f)
 sb.pack(side=RIGHT,fill=Y)
 lb=Listbox(f,yscrollcommand=sb.set)
 lb.pack(side=LEFT)
 sb.config(command=lb.yview)
+lbitems = ['a','b','c','d','e','f','g','h','i','j','k']
+for item in lbitems:
+  lb.insert(END,item)
+root.mainloop()
 
 9.text
 from tkinter import *
@@ -208,7 +213,7 @@ text1 = Text(root, width=50, height=40)
 text1.pack()
 text1.insert(INSERT, 'starting writing\n')
  
-photo = PhotoImage(file='g.gif')
+photo = PhotoImage(file='1.png')
 def show():
     text1.insert(END, '\nshow a new photo')
     # 插入图片在文本框
@@ -217,8 +222,8 @@ button = Button(text1, text='Click Me!', command=show)
 # 插入按钮在文本框
 text1.window_create(INSERT, window=button)
 root.mainloop()
+***********************
 插入字符串 获取信息 删除信息
-from tkinter import *
 text.insert('end', 'A') # 插入到末尾
 text.insert('insert', 'B') # 插入到光标处
 # 插入指定位置(x.y)，行x从1开始，列y从0开始
@@ -234,6 +239,7 @@ text.delete(1.0, 1.6) # 删除1行1列至1行7列
 text.delete(1.0, '1.end') # 删除1行1列至1行末尾
 text.delete(1.4, '2.end') # 删除1行5列至2行末尾
 text.delete(1.2, 'end') # 删除1行3列至内容结尾
+***********************
 
 10.单选框
 import tkinter as tk
@@ -253,7 +259,7 @@ v = tk.IntVar()
 for name, num in site:
     radio_button = tk.Radiobutton(window,text = name,
                  variable = v,value =num,command =
-                 select,indicatoron = False)
+                 select,indicatoron = True)
     radio_button.pack(anchor ='w')
 window.mainloop()
 
@@ -276,19 +282,23 @@ top.mainloop()
 
 12.entry
 import tkinter as tk
-import time
+class CustomInputBox:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("自定义输入框")
+        self.label = tk.Label(root, text="请输入内容：")
+        self.label.pack()
+        self.entry = tk.Entry(root)
+        self.entry.pack()
+        self.submit_button = tk.Button(root, text="提交", command=self.submit)
+        self.submit_button.pack()
+    def submit(self):
+        user_input = self.entry.get()
+        print("用户输入的内容是：", user_input)
+        self.root.destroy()
+#创建并运行输入框
 root = tk.Tk()
-root.geometry('450x150')
-def gettime():
-    # 获取当前时间
-    dstr.set(time.strftime("%H:%M:%S"))
-    # 每隔 1s 调用一次 gettime()函数来获取时间
-    root.after(1000, gettime)
-
-dstr = tk.StringVar()
-lb = tk.Label(root,textvariable=dstr,font=("楷书",45))
-lb.pack()
-gettime()
+app = CustomInputBox(root)
 root.mainloop()
 
 13.scale
@@ -321,3 +331,15 @@ tkinter.messagebox.showwarning("FishC Demo","请注意！")
 参数icon 指定对话框显示的图标
 可以指定的值有: ERROR、INFO、QUESTION或WARNING.
             ''')
+with tab4:
+    with open('./留言簿.txt','r',encoding='utf-8') as f:
+        data = f.read()
+    st.text(data)
+    user_message = st.text_input("请输入你的留言")
+    str_time = str(datetime.now())
+    if st.button("提交留言"):
+        if user_message:
+           with open('./留言簿.txt','a',encoding='utf-8') as f:
+               f.write(str(user_message)+"      "+str_time+'\n')
+           st.write(user_message)
+           st.markdown("<span style='color:green;'>提交成功</span>",unsafe_allow_html=True)
