@@ -331,18 +331,4 @@ tkinter.messagebox.showwarning("FishC Demo","请注意！")
 参数icon 指定对话框显示的图标
 可以指定的值有: ERROR、INFO、QUESTION或WARNING.
             ''')
-'''
-with tab4:
-    with open('./留言簿.txt','r',encoding='utf-8') as f:
-        data = f.read()
-    st.text(data)
-    user_message = st.text_input("请输入你的留言")
-    str_time = str(datetime.now())
-    if st.button("提交留言"):
-        if user_message:
-           with open('./留言簿.txt','a',encoding='utf-8') as f:
-               f.write(str(user_message)+"      "+str_time+'\n')
-           st.write(user_message)
-           st.markdown("<span style='color:green;'>提交成功</span>",unsafe_allow_html=True)
-'''
 
